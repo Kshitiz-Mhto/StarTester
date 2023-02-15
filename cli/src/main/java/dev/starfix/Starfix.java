@@ -303,12 +303,12 @@ public class Starfix implements Runnable{
         String result = presult.outputUTF8();
 
         // for windows
-        // if (isWindows()){
-        //     if (result.contains("\r\n")){
-        //         result = result.replaceAll("\r\n","");
-        //         result = result+System.lineSeparator();
-        //     }
-        // }
+        if (isWindows()){
+            if (result.contains("\r\n")){
+                result = result.replaceAll("\r\n","");
+                result = result+System.lineSeparator();
+            }
+        }
 
         return result;
     }
