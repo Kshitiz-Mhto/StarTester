@@ -13,11 +13,11 @@
              <outputDirectory>/</outputDirectory>
         </fileSet>
     </fileSets>
-    <files>
+    <!-- <files>
         <file>
             <source> ${project.build.directory}/${project.build.finalName}-runner.exe</source>
             <outputDirectory>/installer/Starfix</outputDirectory>
             <destName>starfix.exe</destName>
         </file>
-    </files>
+    </files> -->
 </assembly>
