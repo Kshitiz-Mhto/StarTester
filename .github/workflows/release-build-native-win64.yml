@@ -40,20 +40,19 @@ jobs:
       - name: Set version
         run: ./mvnw versions:set -DnewVersion="${{github.sha}}" 
         shell: cmd
-      # - name: Build native executable
-      #   # Invoke the native-image build with the necessary Visual Studio tooling/environment intialized
-      #   run: |
-      #     call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-      #     mvnw test -q -B"
-      #   shell: cmd
+      - name: Build native executable
+        # Invoke the native-image build with the necessary Visual Studio tooling/environment intialized
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64"
+        shell: cmd
 
       # - name: Set up environment variables
       #   run: |
       #     echo "MAVEN_HOME=${RUNNER_WORKSPACE}/apache-maven-3.6.3" >> $GITHUB_ENV
       #     echo "PATH=${RUNNER_WORKSPACE}/apache-maven-3.6.3/bin:${PATH}" >> $GITHUB_ENV
       - name: Build and test Maven project
-        run: mvn package -B
-        # shell: cmd
+        run: ./mvnw package -Dnative
+        shell: cmd
 
       - name: Upload native executable
         id: upload-native-executable
