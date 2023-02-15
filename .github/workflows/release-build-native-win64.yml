@@ -37,9 +37,9 @@ jobs:
         # Increased the page-file size due to memory-consumption of native-image command
         # For details see https://github.com/actions/virtual-environments/issues/785
         uses: al-cheb/configure-pagefile-action@v1.2
-      - name: Set version
-        run: ./mvnw versions:set -DnewVersion="${{github.sha}}" 
-        shell: cmd
+      # - name: Set version
+      #   run: ./mvnw versions:set -DnewVersion="${{github.sha}}" 
+      #   shell: cmd
       # - name: Build native executable
       #   # Invoke the native-image build with the necessary Visual Studio tooling/environment intialized
       #   run: |
@@ -47,12 +47,12 @@ jobs:
       #     mvnw test -q -B"
       #   shell: cmd
 
-      # - name: Set up environment variables
-      #   run: |
-      #     echo "MAVEN_HOME=${RUNNER_WORKSPACE}/apache-maven-3.6.3" >> $GITHUB_ENV
-      #     echo "PATH=${RUNNER_WORKSPACE}/apache-maven-3.6.3/bin:${PATH}" >> $GITHUB_ENV
+      - name: Set up environment variables
+        run: |
+          echo "MAVEN_HOME=${RUNNER_WORKSPACE}/apache-maven-3.6.3" >> $GITHUB_ENV
+          echo "PATH=${RUNNER_WORKSPACE}/apache-maven-3.6.3/bin:${PATH}" >> $GITHUB_ENV
       - name: Build and test Maven project
-        run: mvnw package -Dnative -B
+        run: mvn package -Dnative -B -e
         shell: cmd
 
       - name: Upload native executable
