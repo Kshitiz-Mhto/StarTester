@@ -15,6 +15,53 @@ defaults:
     working-directory: cli
 
 jobs:
+
+
+# Trigger this job only on Push or Pull-Request
+  build-on-push-pr:
+   # if: github.event_name!='release'&&( github.event_name == 'pull_request'|| github.event_name == 'push')
+    name: Build on Push or PR
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install graalvm
+        uses: DeLaGuardo/setup-graalvm@master
+        with:
+          graalvm: 21.0.0.2
+          java: java11
+      - name: Install native-image
+        run: |
+          %JAVA_HOME%/bin/gu.cmd install native-image
+        shell: cmd
+      # - name: Configure Pagefile
+      #   # Increased the page-file size due to memory-consumption of native-image command
+      #   # For details see https://github.com/actions/virtual-environments/issues/785
+      #   uses: al-cheb/configure-pagefile-action@v1.2
+      # - name: Set version
+      #   run: ./mvnw versions:set -DnewVersion="${{github.sha}}" 
+      #   shell: cmd
+      # - name: Build native executable
+      #   # Invoke the native-image build with the necessary Visual Studio tooling/environment intialized
+      #   run: |
+      #     call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+      #     mvnw test -q -B"
+      #   shell: cmd
+
+      - name: Set up environment variables
+        run: |
+          echo "MAVEN_HOME=${RUNNER_WORKSPACE}/apache-maven-3.6.3" >> $GITHUB_ENV
+          echo "PATH=${RUNNER_WORKSPACE}/apache-maven-3.6.3/bin:${PATH}" >> $GITHUB_ENV
+      - name: Build and test Maven project
+        run: mvn test -B -q
+
+      # - name: Upload native executable
+      #   id: upload-native-executable
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: starfix-win64-${{github.sha}}.zip
+      #     path: ./cli/target/starfix-${{github.sha}}.zip
+
+
 # Trigger this job only on release
   # build-on-release:
   #   if: github.event_name=='release'&& github.event_name != 'pull_request'&& github.event_name != 'push'
@@ -54,39 +101,3 @@ jobs:
   #       asset_path: ./cli/target/starfix-${{ github.event.release.tag_name }}.zip
   #       asset_name: starfix-win64.zip
   #       asset_content_type: application/octet-stream
-
-# Trigger this job only on Push or Pull-Request
-  build-on-push-pr:
-   # if: github.event_name!='release'&&( github.event_name == 'pull_request'|| github.event_name == 'push')
-    name: Build on Push or PR
-    runs-on: windows-2019
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install graalvm
-        uses: DeLaGuardo/setup-graalvm@master
-        with:
-          graalvm: 21.0.0.2
-          java: java11
-      - name: Install native-image
-        run: |
-          %JAVA_HOME%/bin/gu.cmd install native-image
-        shell: cmd
-      - name: Configure Pagefile
-        # Increased the page-file size due to memory-consumption of native-image command
-        # For details see https://github.com/actions/virtual-environments/issues/785
-        uses: al-cheb/configure-pagefile-action@v1.2
-      - name: Set version
-        run: ./mvnw versions:set -DnewVersion="${{github.sha}}" 
-        shell: cmd
-      - name: Build native executable
-        # Invoke the native-image build with the necessary Visual Studio tooling/environment intialized
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-          mvnw test -q"
-        shell: cmd
-      # - name: Upload native executable
-      #   id: upload-native-executable
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: starfix-win64-${{github.sha}}.zip
-      #     path: ./cli/target/starfix-${{github.sha}}.zip
