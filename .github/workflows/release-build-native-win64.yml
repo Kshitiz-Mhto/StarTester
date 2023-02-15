@@ -52,15 +52,15 @@ jobs:
       #     echo "MAVEN_HOME=${RUNNER_WORKSPACE}/apache-maven-3.6.3" >> $GITHUB_ENV
       #     echo "PATH=${RUNNER_WORKSPACE}/apache-maven-3.6.3/bin:${PATH}" >> $GITHUB_ENV
       - name: Build and test Maven project
-        run: mvnw test -B
+        run: package -Dnative -B
         shell: cmd
 
-      # - name: Upload native executable
-      #   id: upload-native-executable
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: starfix-win64-${{github.sha}}.zip
-      #     path: ./cli/target/starfix-${{github.sha}}.zip
+      - name: Upload native executable
+        id: upload-native-executable
+        uses: actions/upload-artifact@v2
+        with:
+          name: starfix-win64-${{github.sha}}.zip
+          path: ./cli/target/starfix-${{github.sha}}.zip
 
 
 # Trigger this job only on release
