@@ -285,32 +285,38 @@ public class Starfix implements Runnable{
 
     public static String runCommand(Path directory, String... command) throws IOException, InterruptedException {
         // Function to Run Commands using Process Builder
-        ProcessResult presult;
-        try {
+        if (!isWindows()) {
+            ProcessResult presult;
+            try {
+                System.out.println("Running " + String.join(" ", command));
+                presult = new ProcessExecutor().command(command).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
+                        .execute();
+            } catch (TimeoutException e) {
+                throw new RuntimeException("Error running command", e);
+            }
+
+            int exit = presult.getExitValue();
+            if (exit!=0) {
+                throw new AssertionError(
+                        String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
+            }
+
+            return presult.outputUTF8();
+        } else{
             System.out.println("Running " + String.join(" ", command));
-            presult = new ProcessExecutor().command(command).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
-                    .execute();
-        } catch (TimeoutException e) {
-            throw new RuntimeException("Error running command", e);
+            final Process exec = new ProcessBuilder("CMD", "/C", command[0], command[1]).start();
+            InputStream inputStream = exec.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String output = reader.readLine();
+            System.out.println(output);
+
+            int exit = exec.getExitValue();
+            if (exit!=0) {
+                throw new AssertionError(
+                        String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
+            }
+
         }
-
-        int exit = presult.getExitValue();
-        if (exit!=0) {
-            throw new AssertionError(
-                    String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
-        }
-
-        String result = presult.outputUTF8();
-
-        // for windows
-        // if (isWindows()){
-        //     if (result.contains("\r\n")){
-        //         result = result.replaceAll("\r\n","");
-        //         result = result+System.lineSeparator();
-        //     }
-        // }
-
-        return result;
     }
 
     public static class CloneUrl{
