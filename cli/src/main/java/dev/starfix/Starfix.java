@@ -15,6 +15,7 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Parameters;
+import java.io.InputStream
 
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
@@ -310,7 +311,7 @@ public class Starfix implements Runnable{
             String output = reader.readLine();
             System.out.println(output);
 
-            int exit = exec.getExitValue();
+            int exit = exec.exitValue();
             if (exit!=0) {
                 throw new AssertionError(
                         String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
