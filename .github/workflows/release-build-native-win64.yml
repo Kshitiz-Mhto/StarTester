@@ -40,11 +40,11 @@ jobs:
       - name: Set version
         run: ./mvnw versions:set -DnewVersion="${{github.sha}}" 
         shell: cmd
-      - name: Build native executable
-        # Invoke the native-image build with the necessary Visual Studio tooling/environment intialized
-        run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-        shell: cmd
+      # - name: Build native executable
+      #   # Invoke the native-image build with the necessary Visual Studio tooling/environment intialized
+      #   run: |
+      #     call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+      #   shell: cmd
 
       # - name: Set up environment variables
       #   run: |
