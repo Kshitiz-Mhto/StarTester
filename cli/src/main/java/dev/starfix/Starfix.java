@@ -308,11 +308,8 @@ public class Starfix implements Runnable{
             final Process exec = new ProcessBuilder("CMD", "/C", command[0], command[1]).start();
             InputStream inputStream = exec.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            String output = reader.readLine();
+            String output = reader.readLine().replaceAll("\"", "");
             System.out.println(output+System.lineSeparator());
-            // if (output.contains("\r\n")){
-            //     System.out.println("---");
-            // }
             
             // int exit = exec.exitValue();
             // if (exit!=0) {
