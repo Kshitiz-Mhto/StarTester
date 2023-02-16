@@ -309,13 +309,13 @@ public class Starfix implements Runnable{
             InputStream inputStream = exec.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String output = reader.readLine().replaceAll("\"", "");
-            System.out.println(output+System.lineSeparator());
+            System.out.print(output+System.lineSeparator());
             
-            // int exit = exec.exitValue();
-            // if (exit!=0) {
-            //     throw new AssertionError(
-            //             String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
-            // }
+            int exit = exec.waitFor();
+            if (exit!=0) {
+                throw new AssertionError(
+                        String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
+            }
             return output+System.lineSeparator();
 
         }
