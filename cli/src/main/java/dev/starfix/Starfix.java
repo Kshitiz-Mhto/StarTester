@@ -310,7 +310,7 @@ public class Starfix implements Runnable{
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String output = reader.readLine();
             System.out.println(output);
-            if (output.contains"\r\n"){
+            if (output.contains("\r\n")){
                 System.out.println("---");
             }
             return output;
