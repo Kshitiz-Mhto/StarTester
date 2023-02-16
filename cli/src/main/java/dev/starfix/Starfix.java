@@ -313,12 +313,13 @@ public class Starfix implements Runnable{
             // if (output.contains("\r\n")){
             //     System.out.println("---");
             // }
+            
+            // int exit = exec.exitValue();
+            // if (exit!=0) {
+            //     throw new AssertionError(
+            //             String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
+            // }
             return output;
-            int exit = exec.exitValue();
-            if (exit!=0) {
-                throw new AssertionError(
-                        String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
-            }
 
         }
     }
