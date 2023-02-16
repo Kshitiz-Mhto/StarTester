@@ -319,7 +319,7 @@ public class Starfix implements Runnable{
             //     throw new AssertionError(
             //             String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
             // }
-            return output;
+            return output+System.lineSeparator();
 
         }
     }
