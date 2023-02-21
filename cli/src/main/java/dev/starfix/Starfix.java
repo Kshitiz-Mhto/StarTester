@@ -290,7 +290,7 @@ public class Starfix implements Runnable{
         if (isWindows()) {
             try{
                 System.out.println("Running " + String.join(" ", command));
-                presult = new ProcessExecutor().command(command).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
+                presult = new ProcessExecutor().command("CMD","/C",command[0],command[1]).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
                         .execute();
                 } catch (Exception e) {
                     throw new RuntimeException("Error running command", e);
