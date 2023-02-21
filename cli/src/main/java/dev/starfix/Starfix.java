@@ -314,7 +314,7 @@ public class Starfix implements Runnable{
                             String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
                 }
             // return output+System.lineSeparator();
-                return presult.outputUTF8().replaceAll("\"", "";
+                return presult.outputUTF8().replaceAll("\"", "");
             
         } else{
 
