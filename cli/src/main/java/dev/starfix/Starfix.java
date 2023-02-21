@@ -15,7 +15,6 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Parameters;
-import java.io.InputStream;
 
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
@@ -289,20 +288,9 @@ public class Starfix implements Runnable{
         ProcessResult presult;
 
         if (isWindows()) {
-            // final Process exec;
-            String output;
             try{
                 System.out.println("Running " + String.join(" ", command));
-
-            //     exec = new ProcessBuilder("CMD", "/C", command[0], command[1]).start();
-            //     InputStream inputStream = exec.getInputStream();
-            //     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            //     output = reader.readLine().replaceAll("\"", "");
-            //     System.out.print(output+System.lineSeparator());
-            // } catch (Exception e) {
-            //     throw new RuntimeException("Error running command", e);
-            // }
-                presult = new ProcessExecutor().command("CMD", "/C", command[0], command[1]).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
+                presult = new ProcessExecutor().command(command).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
                         .execute();
                 } catch (Exception e) {
                     throw new RuntimeException("Error running command", e);
@@ -312,8 +300,7 @@ public class Starfix implements Runnable{
                 if (exit!=0) {
                     throw new AssertionError(
                             String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
-                }
-            // return output+System.lineSeparator();
+                }s
                 return presult.outputUTF8().replaceAll("\"", "");
             
         } else{
