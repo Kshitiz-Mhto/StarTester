@@ -300,7 +300,7 @@ public class Starfix implements Runnable{
                 if (exit!=0) {
                     throw new AssertionError(
                             String.format("runCommand %s in %s returned %d", Arrays.toString(command), directory, exit));
-                }s
+                }
                 return presult.outputUTF8().replaceAll("\"", "");
             
         } else{
