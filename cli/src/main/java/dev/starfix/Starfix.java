@@ -292,9 +292,11 @@ public class Starfix implements Runnable{
         if (isWindows()) {
             try{
                 System.out.println("Running " + String.join(" ", command));
-                List<String> commandLineArgs = new ArrayList<>();
-                commandLineArgs.addAll(Arrays.asList(command));
-                presult = new ProcessExecutor().command("CMD","/C",commandLineArgs.toArray(new String[0])).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
+                List<String> commandList = new ArrayList<>();
+                commandList.add("CMD");
+                commandList.add("/C");
+                commandList.addAll(Arrays.asList(commands));
+                presult = new ProcessExecutor().command(commandList.toArray(new String[0])).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
                         .execute();
                 } catch (Exception e) {
                     throw new RuntimeException("Error running command", e);
