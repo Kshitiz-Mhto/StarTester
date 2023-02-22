@@ -15,8 +15,6 @@ import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.ExitCode;
 import picocli.CommandLine.Parameters;
-import java.util.ArrayList;
-import java.util.List;
 
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
@@ -29,6 +27,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.io.File;
 import java.util.Properties;
 import java.util.concurrent.TimeoutException;
@@ -292,11 +292,16 @@ public class Starfix implements Runnable{
         if (isWindows()) {
             try{
                 System.out.println("Running " + String.join(" ", command));
-                List<String> commandList = new ArrayList<>();
-                commandList.add("CMD");
-                commandList.add("/C");
-                commandList.addAll(Arrays.asList(command));
-                presult = new ProcessExecutor().command(commandList.toArray(new String[0])).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
+                // List<String> commandList = new ArrayList<>();
+                // commandList.add("CMD");
+                // commandList.add("/C");
+                // commandList.addAll(Arrays.asList(command));
+                // commandList.toArray(new String[0])
+                String[] commandArray = new String[2 + commands.length];
+                commandArray[0] = "CMD";
+                commandArray[1] = "/C";
+                System.arraycopy(commands, 0, commandArray, 2, commands.length);
+                presult = new ProcessExecutor().command(commandArray).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
                         .execute();
                 } catch (Exception e) {
                     throw new RuntimeException("Error running command", e);
