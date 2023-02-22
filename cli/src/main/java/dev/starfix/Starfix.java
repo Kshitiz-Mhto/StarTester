@@ -297,10 +297,10 @@ public class Starfix implements Runnable{
                 // commandList.add("/C");
                 // commandList.addAll(Arrays.asList(command));
                 // commandList.toArray(new String[0])
-                String[] commandArray = new String[2 + commands.length];
+                String[] commandArray = new String[2 + command.length];
                 commandArray[0] = "CMD";
                 commandArray[1] = "/C";
-                System.arraycopy(commands, 0, commandArray, 2, commands.length);
+                System.arraycopy(command, 0, commandArray, 2, command.length);
                 presult = new ProcessExecutor().command(commandArray).redirectOutput(System.out).redirectErrorStream(true).readOutput(true)
                         .execute();
                 } catch (Exception e) {
